@@ -18,8 +18,8 @@
 只精簡上傳包，無須刪除 repository 中的字型資產。勿沿用上游 Overleaf 連結，該連結不包含本版修改。
 
 1. 在 `ntusetup.tex` 填寫中英文題目、作者、指導教授、學號、年月與關鍵詞。指導教授欄位須連同真實學位／職稱填入；正式姓名及研究內容均留待使用者填寫。
-2. 撰寫 `contents/chapter01.tex` 至 `chapter08.tex`；以真實資料及已核對來源取代每個 `\thesisplaceholder{...}`。
-3. 撰寫 `front/abstract.tex` 與選擇性的 `front/acknowledgement.tex`；摘要環境自動讀取設定中的關鍵詞。
+2. 撰寫 `contents/chapter01.tex` 至 `chapter04.tex`；採用下方四章架構，以真實資料及已核對來源取代每個 `\thesisplaceholder{...}`。
+3. 撰寫 `front/abstract.tex`、`front/denotation.tex` 與選擇性的 `front/acknowledgement.tex`；摘要環境自動讀取設定中的關鍵詞，符號與縮寫只列正文實際使用的項目。
 4. 把核實過的文獻加入 `back/references.bib`，在正文用 `\cite{citation_key}` 引用。
 5. 編譯草稿：
 
@@ -68,14 +68,20 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error final.tex
 | 檔案 | 編輯內容 |
 |---|---|
 | `ntusetup.tex` | 個人資料、題目、關鍵詞及輸出選項 |
-| `contents/chapter01.tex`–`chapter08.tex` | Introduction → Related Work → Cohort and Data → Methods → Experimental Design → Results → Discussion → Conclusion |
+| `contents/chapter01.tex` | Introduction：動機、背景、文獻、研究問題與論文安排 |
+| `contents/chapter02.tex` | Materials and Methods：資料、前處理、分析流程、模型訓練與評估、實驗設定 |
+| `contents/chapter03.tex` | Results and Discussion：主要與補充結果、穩健性、解釋及限制 |
+| `contents/chapter04.tex` | Conclusion：有證據支持的結論、貢獻與未來工作 |
 | `front/abstract.tex` | 中英文摘要 |
 | `front/acknowledgement.tex` | 謝辭（可省略） |
+| `front/denotation.tex` | 符號與縮寫；置於表次之後，沿用羅馬頁碼 |
 | `back/references.bib` | 已核對的真實參考文獻；初始為空 |
 | `back/appendix01.tex` | 可重現性與補充材料 |
 | `bebi-thesis.cls`、入口文件 | 排版層；日常寫作不改 |
 
 英文正文使用雙行間距，前置頁連續使用羅馬頁碼，正文自 1 開始。目次列入目次、圖次、表次。文稿仍須檢查長題目、圖表、跨頁內容與引用是否正確。
+
+本版依使用者指定的參考論文改為四章主體。原八章的資料、方法、實驗設計、結果與討論提示已整併，研究內容仍由作者填寫。章節對應與使用界線見 [THESIS_STRUCTURE.md](docs/THESIS_STRUCTURE.md)。
 
 開始 AI 協作前先讀 [THESIS_GUIDE.md](THESIS_GUIDE.md) 與 [AGENTS.md](AGENTS.md)。官方依據與人工處理項目見 [docs/NTU_COMPLIANCE.md](docs/NTU_COMPLIANCE.md)，來源查核日為 **2026-09-26**。
 

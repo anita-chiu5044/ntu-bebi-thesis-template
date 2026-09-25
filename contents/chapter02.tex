@@ -1,20 +1,45 @@
 % !TeX root = ../main.tex
-\chapter{Related Work}
-\label{ch:related-work}
-\thesisplaceholder{Synthesize verified primary literature and explain the unresolved research gap.}
+% 合併資料、方法與實驗設計；所有步驟均依實際研究填寫，不預設特定分析工具。
+\chapter{Materials and Methods}
+\label{ch:materials-methods}
+\thesisplaceholder{Describe the actual data, preprocessing, analysis pipeline, model development, evaluation protocol, and experimental settings.}
 
-\section{Clinical and Biological Background}
-% 整理任務相關的生理、病理或照護流程；區分普遍知識與特定研究情境。
-% 指出標籤或量測與真實臨床／生物狀態的差距。
+\section{Datasets}
+\subsection{Study Setting, Provenance, and Eligibility}
+% 說明資料來源、版本、收集期間、院所或批次、納入排除、取樣及標籤判定流程。
+% 區分人數、檢體數與觀測數；非臨床研究改述相應生物系統及分析單位。
+\subsection{Ethics, Governance, and Access}
+% 僅記錄已確認的倫理核准或豁免、授權、同意範圍及去識別程序。
+% 未確認的核准號碼、存取權限或公開資格保留待辦，不得推定。
 
-\section{Data and Evaluation in Prior Studies}
-% 依族群、資料來源、切分、終點、外部驗證與限制比較研究。
-% 不能直接比較任務、族群或評估設定不相容的 headline scores。
+\section{Data Preprocessing}
+\subsection{Quality Control and Missing Data}
+% 記錄重複、缺失、異常、量測範圍與排除準則，以及每步驟對樣本數的影響。
+% 說明哪些規則預先指定、哪些由資料估計；不得用測試資料決定處理參數。
+\subsection{Data Representation and Transformations}
+% 描述實際採用的表示、標準化、轉換、特徵選取或資料增強（如適用），並說明理由。
+% 學習到的前處理須在訓練資料內估計；未使用的方法不要為了補齊章節而添加。
 
-\section{Methods and Baselines}
-% 先整理現行實務、簡單統計方法與強基準，再介紹相關 ML 方法。
-% 解釋選擇理由與方法假設；勿以新穎架構本身作為充分研究貢獻。
+\section{Analysis Pipeline}
+\subsection{Problem Formulation and Assumptions}
+% 定義符號、分析單位、輸入可得時間、輸出、假設與完整處理順序。
+% 區分預測、生成、描述性分析與因果推論；流程圖和公式須對應實際程式。
+\subsection{Reference Methods and Proposed Approach}
+% 描述實際比較的現行流程、強基準及研究方法；明確指出新增部分及選擇理由。
+% 記錄各方法可取得的資訊與預訓練來源，避免資訊優勢不一致。
 
-\section{Evidence Gap and Study Positioning}
-% 逐項核對文獻是否支持研究缺口；區分未研究、證據不足與已得到負結果。
-% 每個關鍵主張都應有實際閱讀並核實的來源。
+\section{Model Training, Validation, and Evaluation}
+\subsection{Data Splits and Model Selection}
+% 依研究問題選擇個體、donor、批次、院所或時間切分，保留不參與調參的測試資料。
+% 說明交叉驗證（如適用）、調參範圍、選模準則及測試集使用次數；檢查來源重疊。
+\subsection{Metrics and Statistical Analysis}
+% 定義主要與次要指標、估計目標、閾值、統計單位及不確定性估計。
+% 處理相依觀測、缺失與多重比較，區分預先規劃分析和事後探索。
+\subsection{Robustness and Interpretability}
+% 規劃與實際用途相關的亞組、分布改變、消融、敏感度或解釋分析（如適用）。
+% 特徵重要性或模型解釋不能直接當成因果機制；小亞組須交代不確定性。
+
+\section{Experimental Settings}
+% 列出套件與版本、程式版本、種子、超參數、停止條件、計算資源及執行方式。
+% 各比較方法使用一致終點與可比較的資料／預算；差異須明確記錄。
+% 記錄推論流程、缺失輸入或不可判讀樣本的處理，以及圖表輸出的可追溯位置。

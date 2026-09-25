@@ -22,6 +22,13 @@ from pypdf.generic import ContentStream, DecodedStreamObject
 
 
 ROOT = Path(__file__).resolve().parents[1]
+EXPECTED_CHAPTERS = (
+    "Introduction",
+    "Materials and Methods",
+    "Results and Discussion",
+    "Conclusion",
+)
+DENOTATION_TITLE = "符號與縮寫"
 GENERATED = (
     ".git", ".github", "build", "__pycache__", "*.aux", "*.bbl", "*.bcf",
     "*.blg", "*.fdb_latexmk", "*.fls", "*.log", "*.run.xml", "*.synctex.gz",
@@ -84,6 +91,53 @@ def toc_page(directory, title, name="main"):
     return matches[0]
 
 
+def chapter_files(directory):
+    """Use the active manuscript includes rather than a fixed fixture chapter count."""
+    main = (directory / "main.tex").read_text()
+    main = re.sub(r"(?<!\\)%[^\n]*", "", main)
+    paths = re.findall(r"\\include\s*\{(contents/[^}]+)\}", main)
+    check(paths and len(paths) == len(set(paths)), "Main chapter includes are missing or duplicated")
+    return [directory / (path + ".tex") for path in paths]
+
+
+def check_denotation(directory, reader, name="main"):
+    labels = reader.page_labels
+    first_roman = labels.index("i")
+    first_body = labels.index("1", first_roman + 1)
+    front_labels = labels[first_roman:first_body]
+    check(front_labels == [roman(number) for number in range(1, len(front_labels) + 1)],
+          "Roman pagination must stay continuous through the denotation pages")
+    denotation_page = toc_page(directory, DENOTATION_TITLE, name)
+    tables_page = toc_page(directory, "表次", name)
+    check(re.fullmatch(r"[ivxlcdm]+", denotation_page) and denotation_page in front_labels,
+          "Denotation must have an unnumbered TOC entry with a Roman page number")
+    check(front_labels.index(tables_page) < front_labels.index(denotation_page),
+          "Denotation must follow the List of Tables in the numbered front matter")
+    toc = (directory / f"{name}.toc").read_text()
+    denotation_entries = re.findall(r"\\contentsline\s*\{chapter\}[^\n]*"
+                                    + re.escape(DENOTATION_TITLE), toc)
+    check(len(denotation_entries) == 1, "Denotation must appear exactly once in the TOC")
+    first_chapter = re.search(r"\\contentsline\s*\{chapter\}\{\\numberline\s*\{1\}", toc)
+    check(first_chapter is not None, "The first body chapter is missing from the TOC")
+    check(toc.index(r"\contentsline {chapter}{表次}")
+          < toc.index(r"\contentsline {chapter}{" + DENOTATION_TITLE + "}")
+          < first_chapter.start(), "Denotation must appear after tables and before the body in the TOC")
+    denotation_index = labels.index(denotation_page, first_roman)
+    check(DENOTATION_TITLE in (reader.pages[denotation_index].extract_text() or ""),
+          "The denotation TOC entry does not point to its visible heading")
+
+
+def check_draft_chapters(directory, reader):
+    check(len(chapter_files(directory)) == len(EXPECTED_CHAPTERS),
+          "The draft must include exactly four body chapters")
+    toc = (directory / "main.toc").read_text()
+    chapters = re.findall(r"\\contentsline\s*\{chapter\}\{\\numberline\s*\{([0-9]+)\}([^{}]*)\}", toc)
+    expected = [(str(number), title) for number, title in enumerate(EXPECTED_CHAPTERS, 1)]
+    # Exact comparison also rejects Chapter 5--8 and the former top-level headings.
+    check(chapters == expected, f"Unexpected draft chapter titles or order: {chapters}")
+    check_denotation(directory, reader)
+
+
 def roman(number):
     result = ""
     for value, token in ((1000, "m"), (900, "cm"), (500, "d"), (400, "cd"),
@@ -114,7 +168,11 @@ def configure_synthetic_fixture(directory):
     (directory / "front/abstract.tex").write_text(
         r"\begin{abstract}中文摘要排版測試。\end{abstract}" + "\n"
         r"\begin{abstract*}Synthetic abstract for layout validation.\end{abstract*}" + "\n")
-    for number in range(1, 9):
+    (directory / "front/denotation.tex").write_text(
+        r"\chapter*{\centering 符號與縮寫}\phantomsection" + "\n"
+        r"\addcontentsline{toc}{chapter}{符號與縮寫}" + "\n"
+        "Synthetic denotation text for front-matter pagination validation.\n")
+    for number, chapter_file in enumerate(chapter_files(directory), 1):
         content = rf"\chapter{{Synthetic Chapter {number}}}" + "\n"
         if number == 1:
             content += (r"\typeout{BEBI-TEST-BASELINE=\the\baselineskip}" + "\n"
@@ -122,7 +180,7 @@ def configure_synthetic_fixture(directory):
                         r"\textcolor{red}{Monochrome mode probe.}" + "\n")
         else:
             content += "Synthetic body text for pagination validation.\n"
-        (directory / f"contents/chapter{number:02}.tex").write_text(content)
+        chapter_file.write_text(content)
     (directory / "back/appendix01.tex").write_text(
         r"\chapter{Synthetic Appendix}Synthetic appendix content." + "\n")
     (directory / "back/references.bib").write_text("""@misc{layoutFixture,
@@ -153,6 +211,7 @@ def check_pagination(directory, name="main", verification_pages=0):
     for title in ("目次", "圖次", "表次"):
         check(toc_page(directory, title, name) in front_labels,
               f"{title} is missing or has an invalid front-matter page")
+    check_denotation(directory, reader, name)
     toc = (directory / f"{name}.toc").read_text()
     check(r"\numberline {1}Synthetic Chapter 1" in toc,
           "The optional verification letter changed the first body chapter number")
@@ -231,11 +290,10 @@ def run_checks(preview_dir=None):
         parent = Path(temporary)
         draft = copy_fixture(parent, "draft")
         compile_tex(draft, "main.tex")
-        _, draft_text = pdf(draft)
+        draft_reader, draft_text = pdf(draft)
         check("Draft" in draft_text, "Draft mode must clearly label its preview")
-        check("Biomedical" in draft_text or "biomedical" in draft_text,
-              "The biomedical thesis skeleton is absent")
-        print("PASS: shipped draft compiles with its visible placeholders", flush=True)
+        check_draft_chapters(draft, draft_reader)
+        print("PASS: four-chapter draft and Roman denotation placement", flush=True)
 
         clean = copy_fixture(parent, "synthetic-final")
         configure_synthetic_fixture(clean)
@@ -313,7 +371,7 @@ def run_checks(preview_dir=None):
 
         todo = copy_fixture(parent, "body-todo")
         configure_synthetic_fixture(todo)
-        with (todo / "contents/chapter01.tex").open("a") as stream:
+        with chapter_files(todo)[0].open("a") as stream:
             stream.write(r"\todomark{Unresolved research task}" + "\n")
         compile_tex(todo, "final.tex", "Unresolved thesis placeholder")
         print("PASS: final rejects unresolved manuscript TODO", flush=True)

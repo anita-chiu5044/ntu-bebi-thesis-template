@@ -12,7 +12,9 @@
 
 ## Editing boundaries
 
-日常寫作可改 `contents/`、`front/abstract.tex`、`front/acknowledgement.tex`、`back/appendix01.tex` 與 `back/references.bib`。`ntusetup.tex` 只能填寫使用者提供或明確核實的論文資料與選項；不知道的保留空白。
+日常寫作可改 `contents/chapter01.tex` 至 `chapter04.tex`、`front/abstract.tex`、`front/acknowledgement.tex`、`front/denotation.tex`、`back/appendix01.tex` 與 `back/references.bib`。`ntusetup.tex` 只能填寫使用者提供或明確核實的論文資料與選項；不知道的保留空白。
+
+正文採四章：Introduction、Materials and Methods、Results and Discussion、Conclusion。文獻與問題背景放第一章，資料、方法及評估方案放第二章，結果與對應解釋放第三章，第四章整理有證據支持的結論。詳細對應見 [章節架構](docs/THESIS_STRUCTURE.md)；不因合併章節而省略資料切分、統計方法、研究限制或與既有研究的比較。參考版中的研究主題、工具、樣本數與成果不自動成為本論文的內容。
 
 **AI 不得因為改寫正文而自行改動排版層**：`bebi-thesis.cls`、入口文件、頁面邊界、字型、行距、封面、頁碼、前置頁順序、浮水印／DOI 或定稿檢查。若任務明確授權模板維護，可以在該範圍內修改，並說明依據與驗證結果。本次建立 BEBI 模板及修正格式已獲授權。
 
