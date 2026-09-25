@@ -201,18 +201,30 @@
 \bebi@overlaystrue
 \newif\ifbebi@outercover
 \bebi@outercovertrue
+% Register XeTeX/PGF transparency resources before the first page ships.
+% Creating opacity for the first time inside shipout leaves page 1 without
+% the ExtGState resource, so cache the image before any cover is rendered.
+\newsavebox{\bebi@watermarkbox}
+\AtBeginDocument{%
+  \ifbebi@final
+    \sbox{\bebi@watermarkbox}{%
+      \begin{tikzpicture}
+        \node[inner sep=0pt,outer sep=0pt,opacity=0.5]
+          {\includegraphics[scale=0.5]{\bebi@watermarkfile}};
+      \end{tikzpicture}}%
+  \fi}
 \AddToShipoutPictureBG{%
   \ifbebi@final\ifbebi@overlays
     \begin{tikzpicture}[remember picture,overlay]
-      \node[anchor=north east,inner sep=0pt,opacity=0.5]
+      \node[anchor=north east,inner sep=0pt,outer sep=0pt]
         at ([xshift=-2.5cm,yshift=-2.5cm]current page.north east)
-        {\includegraphics[scale=0.5]{\bebi@watermarkfile}};
+        {\usebox{\bebi@watermarkbox}};
     \end{tikzpicture}%
   \fi\fi}
 \AddToShipoutPictureBG{%
   \ifbebi@final\ifbebi@overlays
     \begin{tikzpicture}[remember picture,overlay]
-      \node[anchor=south east,inner sep=0pt,text=black]
+      \node[anchor=south east,inner sep=0pt,outer sep=0pt,text=black]
         at ([xshift=-1cm,yshift=1cm]current page.south east)
         {\fontsize{12}{12}\selectfont doi:\bebi@doi};
     \end{tikzpicture}%
