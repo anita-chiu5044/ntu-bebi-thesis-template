@@ -1,65 +1,36 @@
 % !TeX root = ./main.tex
-
-% --------------------------------------------------
-% 資訊設定（Information Configs）
-% --------------------------------------------------
-
+% Replace every placeholder with your approved thesis information.
+% Do not invent a DOI: copy the value assigned by NTU's thesis system.
+% advisor/ advisor* include the advisor's actual degree or academic title.
 \ntusetup{
-  university*   = {National Taiwan University},
-  university    = {國立臺灣大學},
-  college       = {電機資訊學院},
-  college*      = {College of Electrical Engineering and Computer Science},
-  institute     = {電機工程學系},
-  institute*    = {Department of Electrical Engineering},
-  title         = {國立臺灣大學碩博士畢業論文模版},
-  title*        = {National Taiwan University (NTU) \\ Thesis/Dissertation Template in \LaTeX},
-  author        = {朱雁丞},
-  author*       = {Yen-Cheng Chu},
-  ID            = {R10921008},
-  advisor       = {連豊力},
-  advisor*      = {Feng-Li Lian},
-  date          = {2022-08-14},         % 若註解掉，則預設為當天
-  oral-date     = {2022-08-14},         % 若註解掉，則預設為當天
-  DOI           = {10.5566/NTU2018XXXXX},
-  keywords      = {LaTeX, 中文, 論文, 模板},
-  keywords*     = {LaTeX, CJK, Thesis, Template},
+  university  = {國立臺灣大學},
+  university* = {National Taiwan University},
+  college     = {電機資訊學院},
+  college*    = {College of Electrical Engineering and Computer Science},
+  institute   = {生醫電子與資訊學研究所},
+  institute*  = {Graduate Institute of Biomedical Electronics and Bioinformatics},
+  title       = {\thesisplaceholder{中文論文題目}},
+  title*      = {\thesisplaceholder{English Thesis Title}},
+  author      = {\thesisplaceholder{中文姓名}},
+  author*     = {\thesisplaceholder{English Name}},
+  ID          = {\thesisplaceholder{Student ID}},
+  advisor     = {\thesisplaceholder{指導教授姓名及學位或職稱}},
+  advisor*    = {\thesisplaceholder{Advisor Name and Degree or Title}},
+  date        = {}, % Required for final: YYYY-MM-DD; no automatic current date.
+  oral-date   = {}, % Record the actual examination date when known.
+  DOI         = {}, % Assigned identifier only, without a URL or doi: prefix.
+  keywords    = {\thesisplaceholder{關鍵字一},\thesisplaceholder{關鍵字二},\thesisplaceholder{關鍵字三},\thesisplaceholder{關鍵字四},\thesisplaceholder{關鍵字五}},
+  keywords*   = {\thesisplaceholder{Keyword one},\thesisplaceholder{Keyword two},\thesisplaceholder{Keyword three},\thesisplaceholder{Keyword four},\thesisplaceholder{Keyword five}},
 }
 
-% --------------------------------------------------
-% 加載套件（Include Packages）
-% --------------------------------------------------
+\bebisetup{
+  print = false,                    % true adds the paper copy's inner title page.
+  verification = false,             % true includes the actual signed PDF + TOC entry.
+  verificationfile = {front/verification.pdf},
+  acknowledgements = true,          % false omits the optional acknowledgements.
+  watermarkfile = {figures/watermark.pdf},
+}
 
-%\usepackage[sort&compress]{natbib}      % 參考文獻, use biblatex instead
-\usepackage{amsmath, amsthm, amssymb}   % 數學環境
-% \usepackage{ulem, CJKulem}              % 下劃線、雙下劃線與波浪紋效果
-\usepackage{CJKulem}                    % 下劃線、雙下劃線與波浪紋效果
-\usepackage{booktabs}                   % 改善表格設置
-\usepackage{multirow}                   % 合併儲存格
-\usepackage{diagbox}                    % 插入表格反斜線
-\usepackage{array}                      % 調整表格高度
-\usepackage{longtable}                  % 支援跨頁長表格
-\usepackage{paralist}                   % 列表環境
-
-
-\usepackage{lipsum}                     % 英文亂字
-\usepackage{zhlipsum}                   % 中文亂字
-
-\usepackage[normalem]{ulem}             % to strike the words
-
-% --------------------------------------------------
-% 套件設定（Packages Settings）
-% --------------------------------------------------
-
-
-\usepackage{pdfpages}                   % To insert the verification page
-
-% 自定义引用格式：在内文引用中使用 et al. (如果有 3 个或更多作者)
-\AtEveryCitekey{\ifnameundef{labelname}
-  {\defcounter{maxnames}{1}}
-  {\ifnum\value{listtotal}>2
-    \defcounter{maxnames}{1}\defcounter{minnames}{1}\def\etalstring{et al.}\fi}}
-
-% 自定义参考文献列表格式：显示所有作者
-\AtEveryBibitem{\ifnameundef{labelname}
-  {}
-  {\defcounter{maxnames}{99}\defcounter{minnames}{1}}}
+% Manuscript-specific packages may be added here, without changing the layout.
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,multirow,array,longtable}

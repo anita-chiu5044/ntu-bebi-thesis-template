@@ -15,3 +15,15 @@
 **/*lof
 **/*out
 **/*toc
+
+# Generated documents and local signed material
+/main.pdf
+/draft.pdf
+/final.pdf
+/build/
+/front/verification.pdf
+*.xdv
+.DS_Store
+
+__pycache__/
+*.pyc
