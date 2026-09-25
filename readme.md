@@ -6,7 +6,16 @@
 
 ## Quick start
 
-使用包含 XeLaTeX、latexmk 與 Biber 的 TeX 環境。在 Overleaf 上傳本 repository 的 ZIP，選擇 **XeLaTeX** 編譯器與 **draft.tex** 主文件。勿沿用上游 Overleaf 連結，該連結不包含本版修改。
+使用包含 XeLaTeX、latexmk 與 Biber 的 TeX 環境。在 Overleaf 上傳**小於 50 MB 的精簡專案 ZIP**，選擇 **XeLaTeX** 編譯器與 **draft.tex** 主文件。完整 GitHub ZIP 含上游備選字型，可能超過 [Overleaf 官方上傳限制](https://docs.overleaf.com/managing-projects-and-files/uploading-a-project)；其他未使用的中文字型可從上傳包省略，以下六個必要字型須保留原路徑：
+
+- `fonts/chinese/BiauKai.ttf`
+- `fonts/chinese/Kaiti-Black.ttf`
+- `fonts/english/Times New Roman.ttf`
+- `fonts/english/Times New Roman-Bold.ttf`
+- `fonts/english/Times New Roman-Italic.ttf`
+- `fonts/english/Times New Roman-BoldItalic.ttf`
+
+只精簡上傳包，無須刪除 repository 中的字型資產。勿沿用上游 Overleaf 連結，該連結不包含本版修改。
 
 1. 在 `ntusetup.tex` 填寫中英文題目、作者、指導教授、學號、年月與關鍵詞。指導教授欄位須連同真實學位／職稱填入；正式姓名及研究內容均留待使用者填寫。
 2. 撰寫 `contents/chapter01.tex` 至 `chapter08.tex`；以真實資料及已核對來源取代每個 `\thesisplaceholder{...}`。

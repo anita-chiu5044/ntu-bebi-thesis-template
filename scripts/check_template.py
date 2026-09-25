@@ -44,7 +44,11 @@ def compile_tex(directory, entry, expected_error=None):
     details = result.stdout + (log.read_text(errors="replace") if log.exists() else "")
     if expected_error is not None:
         check(result.returncode != 0, f"{entry} unexpectedly compiled despite {expected_error}")
-        check(expected_error in details,
+        # TeX's max_print_line may wrap an error in the middle of a word.
+        # Preserve the exact reason while ignoring platform-dependent whitespace.
+        compact_error = re.sub(r"\s+", "", expected_error)
+        compact_details = re.sub(r"\s+", "", details)
+        check(compact_error in compact_details,
               f"{entry} failed for the wrong reason; wanted {expected_error}:\n{details[-7000:]}")
         return details
     log_text = log.read_text(errors="replace") if log.exists() else ""
