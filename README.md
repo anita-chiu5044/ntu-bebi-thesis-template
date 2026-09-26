@@ -2,6 +2,23 @@
 
 國立臺灣大學**生醫電子與資訊學研究所**碩士論文 LaTeX 模板，所屬**電機資訊學院**。提供 Biomedical ML 章節骨架、草稿／定稿模式與 Thesis Lab 協作規則。這是非官方模板；實際送審仍須依臺大圖書館與 BEBI 當期規定辦理。
 
+## 研究進度與規劃
+
+![Biomedical ML 研究進度：宿主變異與鼻咽菌相、sCCA、疾病模組，以及目前焦點和十二月交付規劃](docs/research_progress.png)
+
+圖表由唯一進度來源 [research_progress.json](research_progress.json) 產生，包含更新日期、各階段狀態、目前位置、短期計畫、決策點與時程。**已回報完成與有產出佐證分開標示；日期是規劃，不會自動將研究標為完成。**
+
+[研究架構](docs/RESEARCH_ARCHITECTURE.md) · [文字版進度與證據](docs/RESEARCH_PROGRESS.md) · [更新方式](THESIS_GUIDE.md#研究進度更新)
+
+```sh
+python3 -m venv .venv-progress
+.venv-progress/bin/python -m pip install -r scripts/requirements-progress.txt
+.venv-progress/bin/python scripts/render_research_progress.py
+.venv-progress/bin/python scripts/render_research_progress.py --check
+```
+
+README 與研究架構共用 `docs/research_progress.png`，更新 JSON 後重繪一次即可同步。Paper、Q1 投稿準備與 NTU BEBI 碩論都列入成果路徑；十二月中研究交付的確切形式見進度來源的 `deadline.note`。
+
 本版以 [NTU-NCS-lab/NTU-Thesis-Writing-Template](https://github.com/NTU-NCS-lab/NTU-Thesis-Writing-Template) 為基礎，保留原始授權與作者資訊。預設文件不載入 NCS 實驗室樣式。來源見 [UPSTREAM.md](UPSTREAM.md)。
 
 ## Quick start
