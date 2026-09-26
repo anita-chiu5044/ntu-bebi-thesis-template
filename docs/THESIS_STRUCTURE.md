@@ -2,6 +2,12 @@
 
 架構版本：2026-09-26，依使用者指定的 BEBI 參考論文目次改為四章主體。這是寫作安排，不代表已採用參考論文的研究問題、資料、演算法或結果；原始 PDF 與私人 Drive 連結不納入本 repository。
 
+## 研究進度
+
+![Biomedical ML 研究進度、目前焦點、決策點與十二月交付規劃](research_progress.png)
+
+這張圖與 README、[研究架構](RESEARCH_ARCHITECTURE.md) 共用 `docs/research_progress.png`，由 [research_progress.json](../research_progress.json) 產生。完整狀態與來源見 [RESEARCH_PROGRESS.md](RESEARCH_PROGRESS.md)；更新步驟見 [THESIS_GUIDE.md](../THESIS_GUIDE.md#研究進度更新)。研究進度與章節撰寫進度須分開解讀，模板已存在不表示正文已完成。
+
 ## Main chapters
 
 | 章節 | 本章要完成的工作 | 原八章內容的去向 |

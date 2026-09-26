@@ -22,7 +22,26 @@
 | Citation Auditor | 核對書目資料及引用原文是否支持主張。 | 主張／來源核對及尚未解決的引用。 |
 | Defense Examiner | 挑戰假設、替代解釋、限制與貢獻範圍。 | 口試問題及回答所需證據。 |
 
-## Evidence rules
+## Living research progress
+
+- 本研究的 Biomedical ML 主線是人類基因變異 × 鼻咽菌相 → 功能變異篩選（GPN-MSA／Evo2／EVEE／AlphaGenome 候選）→ sCCA → interactome／疾病模組，再銜接 paper、Q1 投稿準備與 NTU BEBI thesis。以 [docs/RESEARCH_ARCHITECTURE.md](docs/RESEARCH_ARCHITECTURE.md) 說明研究結構。
+- **唯一狀態來源為 `research_progress.json`。** 研究相關工作開始先讀它，回覆以簡短目前焦點對齊；不能因對話主題改變或日期已過，就把研究階段當作完成。
+- 使用者回報完成與實際輸出核對分開記錄。`reported_complete` 須有使用者確認或轉述來源；`verified_complete` 須有可核對產出與實際查核紀錄。只有新增腳本、模板或圖片，不構成分析或文稿完成證據。
+- 完成研究工作、變更規劃或作出決策後，在同一變更中更新對應 `stages`、`current_stage`、短期計畫、決策點、里程碑及時程，並更新 `updated_at`。補上 `evidence_sources`、來源 ID 與適用的 `artifacts` 路徑。未執行驗證不可標成已驗證。
+- 執行 `.venv-progress/bin/python scripts/render_research_progress.py`，同步產生 `docs/research_progress.png` 與 `docs/RESEARCH_PROGRESS.md`；再執行同命令加 `--check`。README、研究架構與章節架構共用這個穩定圖片路徑，不複製帶日期的版本作為另一個狀態來源。
+- 產生檔不可手改。提交時一併包含來源 JSON 與產生檔；若修改繪圖器或資料結構，執行 `.venv-progress/bin/python -m unittest discover -s tests -p 'test_research_progress.py'` 並開圖檢查文字與連線。CI 只查核同步，不會推進研究狀態。
+- 十二月中交付與期刊投稿、口試、畢業是不同事件。精確日期／形式依 `deadline.note` 記錄，不能自行將規劃轉成正式學校期限。不要把過去對 API、硬體、工具授權或 Q1 分區的描述當作已核實現況。
+- 詳細操作見 [THESIS_GUIDE.md](THESIS_GUIDE.md#研究進度更新)。所有公開紀錄只放可分享的摘要及來源識別，不加入病人原始資料或私人審閱內容。
+
+## Academic writing: Swales & Feak
+
+All academic prose must follow the rhetorical and academic-writing principles in John M. Swales and Christine B. Feak, *Academic Writing for Graduate Students: Essential Tasks and Skills*, 3rd ed. Discipline- and journal-specific conventions may refine these principles but must not be replaced by generic AI writing style.
+
+適用於 paper、thesis、abstract、文獻綜整、Introduction、Methods、Results、Discussion 與 reviewer response。先定 audience／purpose／positioning；先修 content、organization、old-to-new flow，最後才修 grammar。Introduction 依 CARS；文獻按研究問題綜整；Results 包含圖表定位、重要比較、解釋及限制；Methods 的被動語態依學科焦點使用，不全面改成主動。
+
+禁止虛構引文、提高沒有新證據支持的 claim strength、空泛學術套話，或僅為顯得艱深而改寫。Paper 與 thesis 共用證據但按不同讀者撰寫；每個主張與引用須核對。不得捏造此書頁碼、逐字引文或聲稱已讀取未取得的附件。詳細寫作流程見 THESIS_GUIDE.md。
+
+## Research evidence
 
 目前正文使用四章架構：Introduction、Materials and Methods、Results and Discussion、Conclusion；對應見 [docs/THESIS_STRUCTURE.md](docs/THESIS_STRUCTURE.md)。Thesis Architect 應在這個架構內安排內容，不自行恢復舊八章，也不把參考論文的研究設計、成果或作者資料移植成使用者的事實。
 
